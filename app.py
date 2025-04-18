@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS
-import openai
+from openai import OpenAI
 import pandas as pd
 import os
 
@@ -12,7 +12,7 @@ sheet_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTtFuozEPrIMGRyH5EI
 df = pd.read_csv(sheet_url)
 
 # ✅ Use environment variable for OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @app.route('/generate', methods=['POST'])
 def generate():
@@ -52,7 +52,7 @@ def generate():
         f"related to {category}, helps develop {skills}, and works best for a {learning_style} learner."
     )
 
-    response = openai.ChatCompletion.create(  
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[
             {"role": "system", "content": "You are a helpful assistant who provides engaging learning activities."},
