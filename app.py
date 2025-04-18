@@ -3,7 +3,6 @@ from flask_cors import CORS
 import pandas as pd
 import os
 from openai import OpenAI
-from openai.types import OpenAIError  # optional, to catch specific error types
 
 app = Flask(__name__)
 CORS(app)
